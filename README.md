@@ -4,6 +4,7 @@
 
 # To try a toy example, the toyExample.sh file allows to use the framework on a small network :
 chmod 777 toyExample.sh
+
 ./toyExample.sh
 
 #
