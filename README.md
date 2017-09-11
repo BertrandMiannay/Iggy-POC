@@ -7,7 +7,14 @@
     ./toyExample.sh
 
 # Files :
-- componentIdentification.py	Ajout Fichiers	6 days ago
+- componentIdentification.py 
+    - Use example : 
+    python tools/componentIdentification.py  DicoNodes correlations.csv > temporyFile
+    - Input 
+           - DicoNodes 
+           - correlations.csv
+    - 
+    
 - componentsSort.py	Ajout Fichiers	6 days ago
     - test
 - graphCompaction.py	Ajout Fichiers	6 days ago
