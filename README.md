@@ -3,8 +3,12 @@
 - Compute the maximal similarity with each subnetwork from a set of observations.
 
 # To try a toy example, the toyExample.sh file allows to use the framework on a small network :
-chmod 777 toyExample.sh
+    chmod 777 toyExample.sh
+    ./toyExample.sh
 
-./toyExample.sh
-
-#
+# Files :
+- componentIdentification.py	Ajout Fichiers	6 days ago
+- componentsSort.py	Ajout Fichiers	6 days ago
+ - test
+- graphCompaction.py	Ajout Fichiers	6 days ago
+- optimizationComponent.lp
