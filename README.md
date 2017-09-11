@@ -10,7 +10,7 @@
 - componentIdentification.py 
     - Use example : 
     python tools/componentIdentification.py  DicoNodes correlations.csv > temporyFile
-    - Input 
+    - Input   
            - DicoNodes : Hash table  
            - correlations.csv : correlation
     - Output
@@ -20,3 +20,4 @@
     - test
 - graphCompaction.py	Ajout Fichiers	6 days ago
 - optimizationComponent.lp
+
