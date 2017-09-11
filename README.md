@@ -9,6 +9,6 @@
 # Files :
 - componentIdentification.py	Ajout Fichiers	6 days ago
 - componentsSort.py	Ajout Fichiers	6 days ago
- - test
+    - test
 - graphCompaction.py	Ajout Fichiers	6 days ago
 - optimizationComponent.lp
