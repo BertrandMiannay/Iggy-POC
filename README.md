@@ -8,7 +8,7 @@
 
 # Files :
 - componentIdentification.py 
-    - Use example :   
+    - Use example :    
     python tools/componentIdentification.py  DicoNodes correlations.csv > temporyFile
     - Input   
            - DicoNodes : Hash table  
