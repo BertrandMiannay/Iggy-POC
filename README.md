@@ -11,9 +11,10 @@
     - Use example : 
     python tools/componentIdentification.py  DicoNodes correlations.csv > temporyFile
     - Input 
-           - DicoNodes 
-           - correlations.csv
-    - 
+           - DicoNodes : Hash table  
+           - correlations.csv : correlation
+    - Output
+        - test
     
 - componentsSort.py	Ajout Fichiers	6 days ago
     - test
