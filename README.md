@@ -52,5 +52,5 @@ This model need Python 2.7.6, the package NetworkX and Clingo 4.5.4 ( https://so
            - dataExample.NA : Observations (A = 0)
            - components.csv : Sorted components ("A +, B -, C +")
     - Output
-        - resultat_MS.csv : Sorted components ("A +, B -, C +")
+        - resultat_MS.csv : Maximal similarity for each component
 
