@@ -9,7 +9,7 @@ This model need Python 2.7.6, the package NetworkX and Clingo 4.5.4 ( https://so
     chmod 777 toyExample.sh    
     ./toyExample.sh
 
-**Files : **
+**Files :**
 
 -  graphCompaction.py
     - Example : python tools/graphCompaction.py graphToyExample.sif ReducedGraph DicoNodes grapheMEF.lp
