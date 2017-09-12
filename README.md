@@ -34,23 +34,23 @@ This model need Python 2.7.6, the package NetworkX and Clingo 4.5.4 ( https://so
 - componentIdentification.py 
     - Example : python tools/componentIdentification.py  DicoNodes correlations.csv > temporyFile
     - Input   
-           - DicoNodes : Hash table  ("A +" : node1)
-           - correlations.csv : correlation between nodes (correlePositif(node2,node1).)
+         - DicoNodes : Hash table  ("A +" : node1)
+         - correlations.csv : correlation between nodes (correlePositif(node2,node1).)
     - Output
         - temporyFile : Unsorted components ("B +, C -, A +")
     
 - componentsSort.py
     - Example : python tools/componentsSort.py temporyFile | sort > components.csv
     - Input   
-           - temporyFile : Unsorted components ("B +, C -, A -")
+         - temporyFile : Unsorted components ("B +, C -, A -")
     - Output
         - components.csv : Sorted components ("A +, B -, C +")
 
 - MSComputing.py
     - Example : python tools/MSComputing.py dataExample.NA components.csv >> resultat_MS.csv
-    - Input   
-           - dataExample.NA : Observations (A = 0)
-           - components.csv : Sorted components ("A +, B -, C +")
+    - Input
+        - dataExample.NA : Observations (A = 0)
+        - components.csv : Sorted components ("A +, B -, C +")
     - Output
         - resultat_MS.csv : Maximal similarity for each component
 
