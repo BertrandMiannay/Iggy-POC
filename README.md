@@ -5,7 +5,7 @@
 
 This model need Python 2.7.6, the package NetworkX and Clingo 4.5.4 ( https://sourceforge.net/projects/potassco/files/clingo/4.2.1/)
 
- **To try a toy example, the toyExample.sh file allows to use the framework on a small network :** 
+ **To try a toy example, the toyExample.sh file allows to use the framework on a small network :**   
     chmod 777 toyExample.sh
     ./toyExample.sh
 
