@@ -468,14 +468,14 @@ for edge in G.edges():
 
 
         #print("("+source+ ","+target+",1,"+str(poidsActivation)+").")
-        	fileOutput.write("edge("+DicoInverse[edge[0]]+ ","+DicoInverse[edge[1]]+",1,"+str(poidsActivation-poidsMin)+").")
+        	fileOutput.write("edge("+DicoInverse[edge[0]]+ ","+DicoInverse[edge[1]]+",1,"+str(poidsActivation-poidsMin)+").\n")
 	if(poidsInhibition-poidsMin!=0):
 		if(edge[0] in NodeUtilise):
 			NodeUtilise.remove(edge[0])
 		if(edge[1] in NodeUtilise):
 			NodeUtilise.remove(edge[1])
 		#print("("+source+ ","+target+",-1,"+str(poidsInhibition)+").")
-		fileOutput.write("edge("+DicoInverse[edge[0]]+ ","+DicoInverse[edge[1]]+",-1,"+str(poidsInhibition-poidsMin)+").")
+		fileOutput.write("edge("+DicoInverse[edge[0]]+ ","+DicoInverse[edge[1]]+",-1,"+str(poidsInhibition-poidsMin)+").\n")
 
 	# Checker si besoin d'afficher les composants pré-identifiés : En liste "NodeUtilise"	
 
@@ -485,8 +485,8 @@ for component in listeIsole:
 	#print(component)
 	for node in G.nodes():
 		if(node.find(component)!=-1):
-			fileOutput.write("imperfectcoloring("+DicoInverse[node]+").")
-			fileOutput.write("consistentTarget("+DicoInverse[node]+").")                          
+			fileOutput.write("imperfectcoloring("+DicoInverse[node]+").\n")
+			fileOutput.write("consistentTarget("+DicoInverse[node]+").\n")                          
 
 
 
@@ -496,7 +496,7 @@ for component in listeConsistent:
 	#print(component)
 	for node in G.nodes():
 		if(node.find(component)!=-1):	
-			fileOutput.write("consistentTarget("+DicoInverse[node]+").")                          
+			fileOutput.write("consistentTarget("+DicoInverse[node]+").\n")                          
 
 
 
