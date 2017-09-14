@@ -17,8 +17,11 @@ def InversionTuple(node):
 	Dico["-"]="+"
 	tupleInverse=""
 	for sousTuple in node.split(","):
+		#print(sousTuple)
 		sousNode=sousTuple.split(" ")[0]
 		sousSigne=sousTuple.split(" ")[1]
+		#print(sousNode)
+	#	print(sousSigne)
 		tupleInverse=tupleInverse+","+sousNode+" "+Dico[sousSigne]	
 	tupleInverse=(tupleInverse[1:len(tupleInverse)+1])
 	return tupleInverse
@@ -29,9 +32,11 @@ def InversionTuple(node):
 def FusionTuples(PredecesseursFusionnables,node,G):
 	nouveauTuple=""
 	for sousTuple in PredecesseursFusionnables:
+		#print(sousTuple)
 		tupleCalcule=sousTuple
 		arc=G[sousTuple][node][0]['edge_type']
 		if(arc == "-1"):
+#			print("inversion")
 			tupleCalcule=InversionTuple(tupleCalcule)
 			
 		nouveauTuple=nouveauTuple+","+tupleCalcule
@@ -76,15 +81,21 @@ def FusionNodes(graphe,dico,inversionArc):
 		H.add_node(dico[node])
 	# Pour chaque arc du graphe G
 	for edges in graphe.edges():
+		#print(edges)
 		source=edges[0]
 		target=edges[1]
+		#print("ci")
 		for edge in graphe[source][target]:
+			#print(graphe[source][target][edge])
 			arc=graphe[source][target][edge]['edge_type']
 			if(source in inversionArc):
 				arc=inversion[arc]
+				#print(dico[source]+" => "+str(arc)+" => "+dico[target])
 			edge=dico[source]+dico[target]+str(arc)
+			#print(edge)
 			# Si l'arc n'existe pas encore
 			if(edge not in ListeArcs):
+				#print("non existant")
 				ListeArcs.append(edge)
 				# Ajouter un arc en mappant les noeud du dico
 				H.add_edge(dico[source],dico[target],edge_type=arc)
@@ -104,6 +115,7 @@ def inversionTuple(tuple):
 		TupleInverse=TupleInverse+","+node+" "+signe
 	# Enlever l'entête
 	TupleInverse=TupleInverse[1:len(TupleInverse)+1]
+	#print(TupleInverse)
 	return(TupleInverse)
 		
 
@@ -121,15 +133,24 @@ def ArcOriginel(TuplePred,noeudSource,grapheOriginel):
 
 # Fonction de generation des Tuples
 def generationTuple(predecesseur, noeudSource, arc,grapheOriginel):
+	#print("Fusion de "+predecesseur+" avec "+noeudSource)
 	if(arc=="1"):
 		arc="+"
 	elif(arc=="-1"):
 		arc="-"
-	if(arc=="-1"):
+	else:
+		print("erreur d'arc : "+str(arc))
+	if(arc=="-"):
 		# Noeud source inverse
+		#print("inversion")
 		noeudSource=inversionTuple(noeudSource)
 	# Gestion des cas de doubles inhibition
 	SigneLastNode=ArcOriginel(predecesseur,noeudSource,grapheOriginel)
+	#print(SigneLastNode)
+	#if(SigneLastNode=="-"):
+		#print("avant : "+noeudSource)
+		#noeudSource=inversionTuple(noeudSource)
+		#print("apres : "+noeudSource)
 	nouveauTuple=predecesseur+","+noeudSource
 	return(nouveauTuple)
 
@@ -138,8 +159,10 @@ def generationTuple(predecesseur, noeudSource, arc,grapheOriginel):
 file=open(sys.argv[1],"rb")
 data=file.readlines()
 file.close()
+#print(data) 
 G=nx.MultiDiGraph()
 GOrigine=nx.MultiDiGraph()
+#print(data)
 separateur="\t"
 node_type={}
 for row in data:
@@ -157,19 +180,25 @@ for row in data:
 			G.add_edge(source,target,edge_type="1")
 			GOrigine.add_edge(sourceOrigine,targetOrigine,edge_type="1")
 		
+#print("graphe initial de "+str(len(G.nodes()))+" nodes")
+#print("graphe initial de "+str(len(G.edges()))+" arcs")
 Copie=G.copy()
 nbreTuples=len(G.nodes())
 nbreArcs=len(G.edges())
 nouveauNbreTuples=0
 nouveauNbreArcs=0
 
-nbreNoeudsCycle=0
-NxnbreNoeudsCycle=nbreTuples
+NxNombreTuplesGlobal=0
+NombreTuplesGlobal=nbreTuples
+NxNombreArcsGlobal=0
+NombreArcsGlobal=len(G.edges())
 listeIsole=[]
 
 print("graph with "+str(len(G.nodes()))+" nodes and "+str(len(G.edges()))+" edges")
-while(nbreNoeudsCycle!=NxnbreNoeudsCycle):
-	nbreNoeudsCycle=NxnbreNoeudsCycle
+while(NxNombreTuplesGlobal!=NombreTuplesGlobal or NombreArcsGlobal!=NxNombreArcsGlobal):
+	print("cycle "+str(NombreTuplesGlobal)) 
+	NxNombreTuplesGlobal=NombreTuplesGlobal
+	NxNombreArcsGlobal=NombreArcsGlobal
 	# REDUCTION SUR LA COHERENCE
 	suppression=[]
 	# Tant que le nbre de Tuples varie
@@ -188,8 +217,12 @@ while(nbreNoeudsCycle!=NxnbreNoeudsCycle):
 			# Si nbre Predecesseur == 1 ET predec ne fusionne pas ET node ne fusionne pas
 			if(len(predecesseurs)==1 and predecesseurs[0] not in Fusion and node not in Fusion and len(G[predecesseurs[0]][node])==1 and FusionPossible(predecesseurs[0],node, G, G[predecesseurs[0]][node][0]['edge_type'])):
 			
+				#print(node+ " fusion avec "+predecesseurs[0])
+				# Si le pred et noeud partagent 2 arcs différent
+				#print(node+" avec "+predecesseurs[0])
 				Fusion.append(node)
 				Fusion.append(predecesseurs[0])
+				#print(G[predecesseurs[0]][node])
 				NouveauTuple=generationTuple(predecesseurs[0], node,G[predecesseurs[0]][node][0]['edge_type'],Copie)
 				Dico[node]=NouveauTuple
 				Dico[predecesseurs[0]]=NouveauTuple
@@ -207,6 +240,7 @@ while(nbreNoeudsCycle!=NxnbreNoeudsCycle):
 	# REDUCTION SUR LA PERFECTION ####
 	##################################
 
+	#print("reduction par perfection")
 	suppression=[]
 	reduction=False
 	rename={}
@@ -245,11 +279,11 @@ while(nbreNoeudsCycle!=NxnbreNoeudsCycle):
 	nouveauNbreArcs=0
 
 	nbreNoeudsCycle=0
-	NxnbreNoeudsCycle=nbreTuples
+	NxnbreNoeudsReduction=nbreTuples
 	listeConsistent=[]
 
 
-	while(nbreNoeudsCycle!=NxnbreNoeudsCycle):
+	while(nbreNoeudsCycle!=NxnbreNoeudsReduction):
 		nbreNoeudsCycle=len(G.nodes())
 		suppression=[]
 		rename={}
@@ -274,7 +308,7 @@ while(nbreNoeudsCycle!=NxnbreNoeudsCycle):
 		
 				rename[successeur[0]]=rename[successeur[0]]+","+nouveauTuple
 		G.remove_nodes_from(suppression)
-		NxnbreNoeudsCycle=len(G.nodes())
+		NxnbreNoeudsReduction=len(G.nodes())
 		G=nx.relabel_nodes(G,rename)
 		listeConsistent
 
@@ -295,6 +329,7 @@ while(nbreNoeudsCycle!=NxnbreNoeudsCycle):
 
 	Copie=nx.MultiDiGraph()
 	Copie.add_nodes_from(G.nodes())
+	#print("reduction des arcs")
 	for edge in G.edges():
 		poidsActivation=0
 		poidsInhibition=0
@@ -310,11 +345,13 @@ while(nbreNoeudsCycle!=NxnbreNoeudsCycle):
 		        for sousTuple2 in target.split(","):
 		                node1=sousTuple1.split(" ")[0]
 				signeSource=sousTuple1.split(" ")[1]
+				#print(sousTuple1+ " to "+node1+" "+signeSource)
 		                node2=sousTuple2.split(" ")[0]
 		                if(GOrigine.has_edge(node1,node2)):
 					
 		                        for edgeOrigine in GOrigine[node1][node2]:
 		                                arc=(GOrigine[node1][node2][edgeOrigine]['edge_type'])
+					#	print(node1+" to "+node2+" "+arc)
 		                                if(arc == "1"):
 							if(signeSource=="+"):
 								 poidsActivation=poidsActivation+1
@@ -340,27 +377,41 @@ while(nbreNoeudsCycle!=NxnbreNoeudsCycle):
 			if(tete not in listeIsole):
 				listeIsole.append(tete)
 
+#	print(Copie.edges())
+#	print(G.edges())
 	G=Copie
 
 	nouveauNbreTuples=len(G.nodes())
 	nouveauNbreArcs=len(G.edges())
-	NxnbreNoeudsCycle=nouveauNbreTuples
+	NombreArcsGlobal=nouveauNbreArcs
+	NombreTuplesGlobal=nouveauNbreTuples
 	print("Reduction to "+str(len(G.nodes()))+" nodes and "+str(len(G.edges()))+" edges")
+	#print(str(NombreTuplesGlobal)+" vs "+str(NxNombreTuplesGlobal))
+	#print(str(NombreArcsGlobal)+" vs "+str(NxNombreArcsGlobal))
+
+	# A SUPPRIMER POUR BOUCLER
+	NxNombreTuplesGlobal=NombreTuplesGlobal
+	NombreArcsGlobal=NxNombreArcsGlobal
+
 
 # Listing des arcs
 listeArcs=[]
 for i in G.edges():
+	#print(i)
 	source=i[0]
 	target=i[1]
 	for arc in (G[source][target]):
 		edge="\""+source+"\""+"\t"+str(G[source][target][arc]['edge_type'])+"\t"+"\""+target+"\""
 		if(edge not in listeArcs):
 			listeArcs.append(edge)
+	if(source==target):
+		print("Frappe "+source+" => "+str(G[source][target][arc]['edge_type']))
 
 
 file=open(sys.argv[2],"w")
 for i in listeArcs:
 	file.write(i+"\n")
+#	print(G[
 file.close()
 
 
@@ -373,8 +424,8 @@ file.close()
 
 
 
-output=[]
 
+fileOutput=open(sys.argv[4],"w")
 # Ecriture du graphe Mis en forme
 NodeUtilise=G.nodes()
 for edge in G.edges():
@@ -391,10 +442,13 @@ for edge in G.edges():
 	        for sousTuple2 in target.split(","):
 	                node1=sousTuple1.split(" ")[0]
 			signeSource=sousTuple1.split(" ")[1]
+			#print(sousTuple1+ " to "+node1+" "+signeSource)
 	                node2=sousTuple2.split(" ")[0]
+	               # print("test "+node1+" to "+node2)
 	                if(GOrigine.has_edge(node1,node2)):
 	                        for edgeOrigine in GOrigine[node1][node2]:
 	                                arc=(GOrigine[node1][node2][edgeOrigine]['edge_type'])
+				#	print(node1+" to "+node2+" "+arc)
 	                                if(arc == "1"):
 						if(signeSource=="+"):
 							 poidsActivation=poidsActivation+1
@@ -405,55 +459,49 @@ for edge in G.edges():
 							 poidsInhibition=poidsInhibition+1
 						else:
 		                                       poidsActivation=poidsActivation+1
+	poidsMin=min(poidsActivation,poidsInhibition)
 	if(poidsActivation-poidsMin!=0):
 		if(edge[0] in NodeUtilise):
 			NodeUtilise.remove(edge[0])
 		if(edge[1] in NodeUtilise):
 			NodeUtilise.remove(edge[1])
 
-		ajout=("edge("+DicoInverse[edge[0]]+ ","+DicoInverse[edge[1]]+",1,"+str(poidsActivation-poidsMin)+").\n")
-		if(ajout not in output):
-			output.append(ajout)
 
-
+        #print("("+source+ ","+target+",1,"+str(poidsActivation)+").")
+        	fileOutput.write("edge("+DicoInverse[edge[0]]+ ","+DicoInverse[edge[1]]+",1,"+str(poidsActivation-poidsMin)+").")
 	if(poidsInhibition-poidsMin!=0):
 		if(edge[0] in NodeUtilise):
 			NodeUtilise.remove(edge[0])
 		if(edge[1] in NodeUtilise):
 			NodeUtilise.remove(edge[1])
-		ajout=("edge("+DicoInverse[edge[0]]+ ","+DicoInverse[edge[1]]+",-1,"+str(poidsInhibition-poidsMin)+").\n")
-		if(ajout not in output):
-			output.append(ajout)
+		#print("("+source+ ","+target+",-1,"+str(poidsInhibition)+").")
+		fileOutput.write("edge("+DicoInverse[edge[0]]+ ","+DicoInverse[edge[1]]+",-1,"+str(poidsInhibition-poidsMin)+").")
 
 	# Checker si besoin d'afficher les composants pré-identifiés : En liste "NodeUtilise"	
 
 	
 # Recuperation des cibles imparfaites
 for component in listeIsole:
+	#print(component)
 	for node in G.nodes():
 		if(node.find(component)!=-1):
-			
-			output.append("imperfectcoloring("+DicoInverse[node]+").\n")
-			output.append("consistentTarget("+DicoInverse[node]+").\n")                        		                      
+			fileOutput.write("imperfectcoloring("+DicoInverse[node]+").")
+			fileOutput.write("consistentTarget("+DicoInverse[node]+").")                          
 
 
 
 
 # Recuperation des cibles cohérentes
 for component in listeConsistent:
-
+	#print(component)
 	for node in G.nodes():
-		if(node.find(component)!=-1):
-			output.append("consistentTarget("+DicoInverse[node]+").")                   	
+		if(node.find(component)!=-1):	
+			fileOutput.write("consistentTarget("+DicoInverse[node]+").")                          
 
 
 
-file=open(sys.argv[4],"w")
-for i in output:
-	file.write(i)
-file.write("\n")
-file.close()
 
 
 
+fileOutput.close()
 

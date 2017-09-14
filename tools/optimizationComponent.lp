@@ -72,12 +72,11 @@ correleNegatif(X,Y) :- coloringUp(X), not coloringUp(Y), node(Y), edge(X,Y,_,_).
 inconsistentTarget(X) :- not consistentTarget(X), target(X).
 sumInconsistencyTargets(X) :- X =#count{ node(Z) :inconsistentTarget(Z) }.
 #minimize {X@3 : sumInconsistencyTargets(X)}.
-:- inconsistentTarget(X).
 
 % Imperfect target coloring minimization
 sumImperfectcoloring(X) :- X =#count{ node(Z) :imperfectcoloring(Z) }.
 #minimize {X@2 : sumImperfectcoloring(X)}.
-:- sumImperfectcoloring(X), X>421.
+
 %  Imperfect weighted regulator minimization
 sumImperfectWeightedRegulatorPerTarget(X,Y) :- Y=#count{ x(A, B) : imperfectWeightedRegulator(A,X,B)}, imperfectcoloring(X).
 
