@@ -196,7 +196,7 @@ listeIsole=[]
 
 print("graph with "+str(len(G.nodes()))+" nodes and "+str(len(G.edges()))+" edges")
 while(NxNombreTuplesGlobal!=NombreTuplesGlobal or NombreArcsGlobal!=NxNombreArcsGlobal):
-	print("cycle "+str(NombreTuplesGlobal)) 
+	#print("cycle "+str(NombreTuplesGlobal)) 
 	NxNombreTuplesGlobal=NombreTuplesGlobal
 	NxNombreArcsGlobal=NombreArcsGlobal
 	# REDUCTION SUR LA COHERENCE
@@ -234,7 +234,6 @@ while(NxNombreTuplesGlobal!=NombreTuplesGlobal or NombreArcsGlobal!=NxNombreArcs
 	
 		G.remove_edges_from(G.selfloop_edges())
 		nouveauNbreTuples=len(G.nodes())
-	print("Reduction to "+str(len(G.nodes()))+" nodes and "+str(len(G.edges()))+" edges")
 
 	##################################
 	# REDUCTION SUR LA PERFECTION ####
@@ -267,7 +266,6 @@ while(NxNombreTuplesGlobal!=NombreTuplesGlobal or NombreArcsGlobal!=NxNombreArcs
 					suppression.append(sousNode)
  
 	G.remove_nodes_from(suppression)
-	print("Reduction to "+str(len(G.nodes()))+" nodes and "+str(len(G.edges()))+" edges")
 
 	#########################################
 	# REDUCTION SUR PREDECESSEURS ISOLES ####
@@ -321,7 +319,6 @@ while(NxNombreTuplesGlobal!=NombreTuplesGlobal or NombreArcsGlobal!=NxNombreArcs
 		DicoNodes[DicoInverse[node]]=node
 		nbreNode=nbreNode+1
 	
-	print("Reduction to "+str(len(G.nodes()))+" nodes and "+str(len(G.edges()))+" edges")
 
 	#######################	
 	# REDUCTION DES ARCS ##
@@ -386,13 +383,6 @@ while(NxNombreTuplesGlobal!=NombreTuplesGlobal or NombreArcsGlobal!=NxNombreArcs
 	NombreArcsGlobal=nouveauNbreArcs
 	NombreTuplesGlobal=nouveauNbreTuples
 	print("Reduction to "+str(len(G.nodes()))+" nodes and "+str(len(G.edges()))+" edges")
-	#print(str(NombreTuplesGlobal)+" vs "+str(NxNombreTuplesGlobal))
-	#print(str(NombreArcsGlobal)+" vs "+str(NxNombreArcsGlobal))
-
-	# A SUPPRIMER POUR BOUCLER
-	NxNombreTuplesGlobal=NombreTuplesGlobal
-	NombreArcsGlobal=NxNombreArcsGlobal
-
 
 # Listing des arcs
 listeArcs=[]
@@ -485,7 +475,7 @@ for component in listeIsole:
 	#print(component)
 	for node in G.nodes():
 		if(node.find(component)!=-1):
-			fileOutput.write("imperfectcoloring("+DicoInverse[node]+").\n")
+			fileOutput.write("imperfectcoloring("+DicoInverse[node]+").")
 			fileOutput.write("consistentTarget("+DicoInverse[node]+").\n")                          
 
 
