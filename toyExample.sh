@@ -1,4 +1,3 @@
- graph=graphs/graphToyExample.sif
 
 
 # Graph reduction
