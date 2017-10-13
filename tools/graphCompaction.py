@@ -397,7 +397,7 @@ for i in G.edges():
 	if(source==target):
 		print("Frappe "+source+" => "+str(G[source][target][arc]['edge_type']))
 
-
+# Ecriture du graphe réduit
 file=open(sys.argv[2],"w")
 for i in listeArcs:
 	file.write(i+"\n")
