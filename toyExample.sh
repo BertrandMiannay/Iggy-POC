@@ -1,7 +1,7 @@
 
 
 # Graph reduction
-python tools/graphCompaction.py graphs/graphToyExample.sif ReducedGraphsif DicoNodes grapheMEF.lp
+python tools/graphCompaction.py graphs/graphToyExample.sif ReducedGraph.sif DicoNodes grapheMEF.lp
 
 # Correlation identification
 clingo grapheMEF.lp tools/optimizationComponent.lp -n 0 --opt-mode=optN --enum-mode=cautious --quiet=1 | grep "correle"| sort | uniq | sed s/" "/"\n"/g | sed s/")"/")."/g > correlations.csv
